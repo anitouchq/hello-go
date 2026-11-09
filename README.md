@@ -53,3 +53,30 @@ docker run --rm ghcr.io/anitouchq/hello-go:latest
 - [Docker package в GHCR](https://github.com/users/anitouchq/packages/container/hello-go)
 
 [Главный каталог CI/CD проектов](https://github.com/anitouchq/CI-CD-Pipelines)
+
+## Скриншоты
+
+Добавьте изображения в каталог `screenshots/`:
+
+- `screenshots/application.png` — пример запуска приложения;
+- `screenshots/github-actions.png` — успешный CI и Docker publish;
+- `screenshots/ghcr-package.png` — опубликованный Docker package в GHCR.
+
+![Пример работы приложения](screenshots/application.png)
+![GitHub Actions](screenshots/github-actions.png)
+![Docker package в GHCR](screenshots/ghcr-package.png)
+
+## Как опубликовать новую версию Docker image
+
+В этом проекте публикация выполняется не через GitHub Releases, а автоматически при push в `main`. После успешных тестов GitHub Actions собирает и отправляет образ в GHCR.
+
+```bash
+git add .
+git commit -m "feat: describe your change"
+git push origin main
+```
+
+Образ: `ghcr.io/anitouchq/hello-go:latest`.
+
+- [GitHub Actions](https://github.com/anitouchq/hello-go/actions)
+- [Docker package в GHCR](https://github.com/users/anitouchq/packages/container/hello-go)

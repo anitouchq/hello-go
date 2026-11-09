@@ -34,6 +34,11 @@ docker run --rm ghcr.io/anitouchq/hello-go:latest
 
 Пакет можно сделать публичным в GitHub → Packages → Package settings.
 
+
+## GHCR access troubleshooting
+
+Если публикация завершается ошибкой `permission_denied: write_package`, откройте GitHub Profile → Packages → нужный пакет → **Package settings → Manage Actions access → Add repository**. Добавьте `hello-go` и установите роль **Write**. Затем повторно запустите неуспешный workflow во вкладке Actions.
+
 ## Permissions
 
 Для публикации используется встроенный `GITHUB_TOKEN` с разрешением `packages: write`. Внешние секреты не нужны.

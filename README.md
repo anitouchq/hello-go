@@ -1,16 +1,18 @@
-# 🐹 hello-go — Docker image → GHCR
+# hello-go
 
-Учебный проект CI/CD для Go. GitHub Actions проверяет форматирование, выполняет статический анализ и тесты, собирает приложение и публикует Docker-образ в GitHub Container Registry после успешного CI.
+[![CI](https://github.com/anitouchq/hello-go/actions/workflows/ci.yml/badge.svg)](https://github.com/anitouchq/hello-go/actions)
 
-## Pipeline
+Учебный проект на Go: pipeline проверяет форматирование, выполняет статический анализ и тесты, собирает приложение и публикует Docker-образ в GitHub Container Registry (GHCR).
 
-1. `gofmt` — проверка форматирования.
-2. `go vet ./...` — статический анализ.
-3. `go test ./... -v` — модульные тесты.
-4. `go build` — сборка бинарного файла.
+## Что делает pipeline
+
+1. `gofmt` — проверяет форматирование исходников.
+2. `go vet ./...` — выполняет статический анализ.
+3. `go test ./... -v` — запускает модульные тесты.
+4. `go build` — проверяет сборку приложения.
 5. Docker Buildx собирает multi-stage образ и публикует его в GHCR.
 
-Pull request запускает только CI-проверки. Публикация выполняется после успешного CI при push в `main`.
+Pull request запускает только CI-проверки. Публикация выполняется при push в `main` после успешного job `test`.
 
 ## Локальный запуск
 
@@ -23,38 +25,31 @@ go test ./... -v
 go run .
 ```
 
-## Docker
-
-После первого успешного запуска workflow:
+## Docker image
 
 ```bash
 docker pull ghcr.io/anitouchq/hello-go:latest
 docker run --rm ghcr.io/anitouchq/hello-go:latest
 ```
 
-Пакет можно сделать публичным в GitHub → Packages → Package settings.
+[Открыть пакет в GHCR](https://github.com/users/anitouchq/packages/container/hello-go)
 
+## Структура проекта
 
-## GHCR access troubleshooting
+| Файл или каталог | Назначение |
+|---|---|
+| `.github/workflows/ci.yml` | CI-проверки и публикация Docker-образа |
+| `greeting/greeting.go` | Функции приветствия и вспомогательная логика |
+| `greeting/greeting_test.go` | Тесты пакета `greeting` |
+| `main.go` | Точка входа приложения |
+| `Dockerfile` | Multi-stage сборка контейнера |
+| `go.mod` | Имя Go-модуля и версия Go |
+| `.dockerignore` | Файлы, исключаемые из Docker build context |
+| `.gitignore` | Локальные файлы, исключаемые из Git |
 
-Если публикация завершается ошибкой `permission_denied: write_package`, откройте GitHub Profile → Packages → нужный пакет → **Package settings → Manage Actions access → Add repository**. Добавьте `hello-go` и установите роль **Write**. Затем повторно запустите неуспешный workflow во вкладке Actions.
+## Результаты
 
-## Permissions
-
-Для публикации используется встроенный `GITHUB_TOKEN` с разрешением `packages: write`. Внешние секреты не нужны.
-
-## Структура
-
-```text
-.
-├── .github/workflows/ci.yml
-├── greeting/
-│   ├── greeting.go
-│   └── greeting_test.go
-├── Dockerfile
-├── go.mod
-├── main.go
-└── README.md
-```
+- [Последние запуски GitHub Actions](https://github.com/anitouchq/hello-go/actions)
+- [Docker package в GHCR](https://github.com/users/anitouchq/packages/container/hello-go)
 
 [Главный каталог CI/CD проектов](https://github.com/anitouchq/CI-CD-Pipelines)
